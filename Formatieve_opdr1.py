@@ -1,14 +1,11 @@
 #Opdracht 1
-from textwrap import dedent
-
-
 def pyramide():
     grootte = int(input("Hoe groot?: "))
     for i in range(0, grootte):
         print((i+1) * "*")
     for i in range(1, grootte):
         print((grootte - i) * "*")
-pyramide()
+
 def pyramide2():
     grootte = int(input("Hoe groot?: "))
     i = 0
@@ -83,6 +80,8 @@ def Zero_One(lijst):
         return "Sorry there are more zero's then one's in this list"
     else:
         return "This list is verified"
+
+
 #Opdracht 4
 def PalSelf():
     woord = input("Check of het woord een palindroom is: ")
@@ -131,6 +130,7 @@ def Gem(lst):
         count += 1
     i = sum(lst) / count
     return i
+
 def GemTwo(lst):  #Deze functie is nog niet helemaal werkend
     count1 = 0
     count2 = 0
@@ -142,7 +142,8 @@ def GemTwo(lst):  #Deze functie is nog niet helemaal werkend
             count2 += 1
         TopLst.append(sum(i) / count2)
     return sum(TopLst) / count1
-#print(GemTwo([[2,2,2],[3,3,3],[4,4,4],[5,5,5]]))
+
+
 #Opdracht 7
 def Gokmachine():
     import random
@@ -153,6 +154,7 @@ def Gokmachine():
             return "Concgrats u guessed right!"
         else:
             print("Ah such a shame, try again!")
+
 
 #Opdracht 8
 def Compression():
@@ -165,18 +167,72 @@ def Compression():
         Comp = i.strip(" \n")
         print(Comp)
 
+
 #Opdracht 9
 def Shift():
     ch = "11110000" #input("Put in 8bit binary number: ")
-    n = 3 #int(input("Put in shift left(n)/shift right(-n): "))
-    #if n > 0:
-        #for i in range(0,n):
+    n = int(input("Put in shift left(n)/shift right(-n): "))
+    if n > 0:
+        for i in range(0,n):
+            ch = ch[1:len(ch)] + ch[:1]
+        print(ch)
+    elif n <= 0:
+        for j in range(0,abs(n)):
+            ch = ch[len(ch) - 1] + ch[:-1]
+        print(ch)
 
 
+#Opdracht 10
+FibDic = {}
+def fiboCache(n):   #deze zal sneller runnen, https://www.youtube.com/watch?v=Qk0zUZW-U_M
+    if n in FibDic:
+        return FibDic[n]
 
+    if n > 1:
+        value = fiboCache(n-1) + fiboCache(n-2)
+    else:
+        value = 1
 
+    FibDic[n] = value
+    return value
 
+#for n in range(1,101):
+#    print(n, ":", fiboCache(n))
 
+def fibo(n):
+    if n > 1:
+        return fibo(n-1) + fibo(n-2)
+    else:
+        return n
+
+#Opdracht 11
+def CeasarCipher():
+    text = input("Put in text to encrypt: ")
+    rotation = int(input("What is the rotation: "))
+    cipher = "abcdefghijklmnopqrstuvwxyz" #deze verandert in de code maar dat zie je niet hier
+    plain = "abcdefghijklmnopqrstuvwxyz"
+    encrypted = ""
+    for i in range(0, rotation):
+        cipher = cipher[1:len(cipher)] + cipher[:1]
+    print(cipher)
+    for j in text:
+        if j == ' ':
+            encrypted += ' '
+        else:
+            encrypted += cipher[plain.index(j)]
+    print(encrypted)
+
+#Opdracht 12
+def FizzBuzz():
+    for i in range(1,101):
+        if (i % 3) == 0 and (i % 5) == 0:
+            print("fizzbuzz")
+        elif (i % 3) == 0:
+            print("fizz")
+        elif (i % 5) == 0:
+            print("buzz")
+        else:
+            print(i)
 
 
 
