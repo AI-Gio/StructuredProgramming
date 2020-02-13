@@ -61,7 +61,6 @@ def PlayerGuess():
             print(f"You lost, the secret code was {SecretCode}")
         else:
             print(feedback)
-PlayerGuess()
 #===================================================================================================
 #Hier staat de code voor pc tegen player, dus de player heeft geheime code en pc moet raden
 def PlayerCode(): #voor pc tegen speler, speler heeft de geheime code
@@ -77,3 +76,9 @@ def PlayerCode(): #voor pc tegen speler, speler heeft de geheime code
     return SecretCode
 
 def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of het goed geraden is.
+    S = []
+    for i in range(1,6667):
+        S.append(str(i))
+    Color = ["red", "blue", "yellow", "green", "orange", "brown"]
+    #first guess
+    if
