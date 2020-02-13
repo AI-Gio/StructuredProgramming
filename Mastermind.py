@@ -77,4 +77,3 @@ def PlayerCode(): #voor pc tegen speler, speler heeft de geheime code
     return SecretCode
 
 def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of het goed geraden is.
-    x = 0
