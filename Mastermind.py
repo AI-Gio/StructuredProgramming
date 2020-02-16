@@ -106,7 +106,7 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
         elif DiffChoose == "2":  # Hier komt eigen algoritme
             break
         elif DiffChoose == "3":  # Hier wordt de expected size algoritme gebruikt
-            gok = 0 # Dit moet nog verandert worden
+            gok = 0 # Dit moet nog verandert worden a
             BestSize = float("inf")
             DataLst = []
             allFeedback = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4),
