@@ -1,5 +1,7 @@
-
-#===================================================================================================
+import time
+import datetime
+import random
+#=========================================================================================
 #Hier staat de code, voor het player tegen pc, dus pc heeft geheime code en player moet raden
 def Guess(): # Dit zorgt ervoor dat de player een gok kan doen
     Colors = ["red", "blue", "yellow", "green", "orange", "brown"]
@@ -45,18 +47,56 @@ def PCFeedback(SecretCode, Guess): # Deze code geeft een feedback terug met inpu
     # feedback = "B"*BlackPins + "W"*WhitePins
     return BlackPins, WhitePins
 
-def PlayerGuess(): # rename
+def PlayerGuess(): # Deze functie zorgt ervoor dat de player gokken kan doen
     SecretCode = PCCode()
-    for i in range(1,11):
-        print(f"This is guess {i}\n")
-        guess = Guess()
-        Blackpins, Whitepins = PCFeedback(SecretCode, guess)
-        if Blackpins == 4:
-            return f"After {i} guess(es), the secret code is {SecretCode}" #why?
-        elif i == 10:
-            print(f"You lost, the secret code was {SecretCode}")
+    print("Choose between 1(Mastermind) or 2(Timer Mastermind)")
+    DiffChoose = input("Input 1/2: ")
+    while True:
+        if DiffChoose == "1":
+            for i in range(1, 9):
+                print(f"This is guess {i}\n")
+                guess = Guess()
+                Blackpins, Whitepins = PCFeedback(SecretCode, guess)
+                if Blackpins == 4:
+                    print(f"Congrats u found the secret code after {i} guess(es)")  # why?
+                elif i == 8:
+                    print(f"You lost, the secret code was {SecretCode}")
+                else:
+                    print((Blackpins, Whitepins))
+            break
+        elif DiffChoose == "2":  # Dit is mijn eigen algoritme
+            print(
+                "Timer Mastermind gives u 30 seconds to make your next guess, if u take too long the order of the secret will be changed."
+                "So think fast!")
+            for i in range(1, 11):
+                print(f"This is guess {i}\n")
+                print("U have 30 seconds!")
+                a = datetime.datetime.now().replace(microsecond=0)
+                guess = Guess()
+                b = datetime.datetime.now().replace(microsecond=0)
+                TimeDiff = b - a
+                Blackpins, Whitepins = PCFeedback(SecretCode, guess)
+                if Blackpins == 4:
+                    print(f"Congrats u found the secret code after {i} guess(es)")
+                elif i == 10:
+                    print(f"You lost, the secret code was {SecretCode}")
+                else:
+                    if TimeDiff > datetime.timedelta(seconds=30):
+                        print("U took too long, so the secret code is being shuffled")
+                        random.shuffle(SecretCode)
+                    else:
+                        print("Nice just in time!")
+                    print(Blackpins, Whitepins)
+            break
         else:
-            print((Blackpins,Whitepins))
+            print("U have to give 1/2!")
+            DiffChoose = input("Input 1/2: ")
+
+
+
+
+
+
 #===================================================================================================
 #Hier staat de code voor pc tegen player, dus de player heeft geheime code en pc moet raden
 def PlayerCode(): #Deze functie vraagt om een secret code van de player
@@ -78,8 +118,8 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
     FirstGuess = []
     Possibilities = []  # Lst met mogelijke codes
     Colors = ["red", "blue", "yellow", "green", "orange", "brown"]
-    print("Choose difficulty, 1(easy), 2(medium), 3(Beast mode)")
-    DiffChoose = input("Input 1/2/3: ")
+    print("Choose difficulty, 1(easy), 2(Beast mode)")
+    DiffChoose = input("Input 1/2: ")
     for i in Colors: # genereerd alle mogelijke codes
         for j in Colors:
             for k in Colors:
@@ -95,46 +135,59 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
                     gok = FirstGuess[0]
                 else:
                     gok = random.choice(Possibilities)
-                Blackpins, Whitepins = PCFeedback(PlayerCodeTemp,
-                                                  gok)  # PCFeedback(PlayerCodeTemp, gok)/ dit is een forced feedback moet alleen nog kunnen veranderen
+                Blackpins, Whitepins = PCFeedback(PlayerCodeTemp,gok)  # PCFeedback(PlayerCodeTemp, gok)/ dit is een forced feedback moet alleen nog kunnen veranderen
                 if Blackpins == 4:
                     print(f"Wow the pc found your code in {a} tries")
-            for b in Possibilities:  # pakt alle items in Posibilities lst en vergelijkt of feedback niet hetzelfde is aan forced feedback en daarna remove je die mogelijkheid
-                if PCFeedback(gok, b) != (Blackpins, Whitepins):  # PCFeedback(PlayerCodeTemp, gok):
-                    Possibilities.remove(b)
-            break
-        elif DiffChoose == "2":  # Hier komt eigen algoritme
-            break
-        elif DiffChoose == "3":  # Hier wordt de expected size algoritme gebruikt
-            gok = 0 # Dit moet nog verandert worden a
-            BestSize = float("inf")
-            DataLst = []
-            allFeedback = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4),
-                           (1, 0), (1, 1), (1, 2), (1, 3),
-                           (2, 0), (2, 1), (2, 2),
-                           (3, 0), (4, 0)]
+                    break
 
-            # Dit stukje berekent per soort vraag het x aantal mogelijkheden zijn als itemsFeedback de SecretCode is
-            for itemsFeedback in allFeedback:
-                NewLst = []  # lijst van codes die geschrapt worden
+                for b in Possibilities:  # pakt alle items in Posibilities lst en vergelijkt of feedback niet hetzelfde is aan forced feedback en daarna remove je die mogelijkheid
+                    if PCFeedback(gok, b) != (Blackpins, Whitepins):  # PCFeedback(PlayerCodeTemp, gok):
+                        Possibilities.remove(b)
+            break
+        elif DiffChoose == "2":  # Hier wordt de expected size algoritme gebruikt
+            Guess = ['red', 'blue', 'blue', 'red']
+            for numbers in range(1, 12):
+                Blackpins, Whitepins = PCFeedback(PlayerCodeTemp, Guess)
+                if Blackpins == 4:
+                    print(f"Wow the pc found your code in {numbers} tries")
+                    break
+                TempList = []
                 for b in Possibilities:
-                    if PCFeedback(gok, b) != itemsFeedback:  # PCFeedback(PlayerCodeTemp, gok)
-                        NewLst.append(b)
-                Calc = len(Possibilities) - len(NewLst)  # geef getal lengte terug van geschrapte lijst
-                DataLst.append(Calc)
-            # Dit stukje berekent wat de beste keuze moet zijn
-            ExSize = 0
-            for i in DataLst:  # pakt alle waardes van een soort vraag
-                ExSize += (i ** 2) / len(Possibilities)  # Berekent de expected size
-            if ExSize < BestSize:
-                BestSize = ExSize
-                BestComb = gok
-            print(BestSize)
-            print(BestComb)
+                    if PCFeedback(b, Guess) == (Blackpins,Whitepins):
+                        TempList.append(b)
+                Possibilities = TempList
+
+                BestComb = None
+                BestSize = float('inf')
+                for a in Possibilities:
+                    Gok = a
+                    DataLst = []
+                    allFeedback = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4),
+                                   (1, 0), (1, 1), (1, 2), (1, 3),
+                                   (2, 0), (2, 1), (2, 2),
+                                   (3, 0), (4, 0)]
+
+                    # Dit stukje berekent per soort vraag het x aantal mogelijkheden zijn als itemsFeedback de SecretCode is
+                    for itemsFeedback in allFeedback:
+                        NewList = []  # lijst van codes die geschrapt worden
+                        for b in Possibilities:
+                            if PCFeedback(b, Gok) != itemsFeedback:  # PCFeedback(PlayerCodeTemp, gok)
+                                NewList.append(b)
+                        Calc = len(Possibilities) - len(NewList)  # geef getal lengte terug van geschrapte lijst
+                        DataLst.append(Calc)
+                    # Dit stukje berekent wat de beste keuze moet zijn
+                    ExSize = 0
+                    for i in DataLst:  # pakt alle waardes van een soort vraag
+                        ExSize += ((i ** 2) / len(Possibilities))  # Berekent de expected size
+                    if ExSize < BestSize:
+                        BestSize = ExSize
+                        BestComb = Gok
+                Guess = BestComb
+
             break
         else:
             print("You have to put in a number!")
-            DiffChoose = input("Input 1/2/3: ")
+            DiffChoose = input("Input 1/2: ")
 
 #============================================================================================================
 def Choosemenu():   # Deze functie zorgt voor een keuze menu waar de speler kan kiezen of ze zelf Secret code hebben of dat ze moeten raden
