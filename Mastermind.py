@@ -131,7 +131,7 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
                     print(f"Wow the pc found your code in {a} tries")
                     break
 
-                for b in Possibilities:  # pakt alle items in Posibilities lst en vergelijkt of feedback niet hetzelfde is aan forced feedback en daarna remove je die mogelijkheid
+                for b in Possibilities:  # pakt alle items in Posibilities lst en vergelijkt of feedback niet hetzelfde is aan feedback en daarna remove je die mogelijkheid
                     if PCFeedback(gok, b) != (Blackpins, Whitepins):
                         Possibilities.remove(b)
             break
@@ -162,7 +162,7 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
                     for itemsFeedback in allFeedback:
                         NewList = []  # lijst van codes die geschrapt worden
                         for b in Possibilities:
-                            if PCFeedback(b, Gok) != itemsFeedback:  # PCFeedback(PlayerCodeTemp, gok)
+                            if PCFeedback(b, Gok) != itemsFeedback:
                                 NewList.append(b)
                         Calc = len(Possibilities) - len(NewList)  # geef getal lengte terug van geschrapte lijst
                         DataLst.append(Calc)
@@ -184,7 +184,7 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
 def Choosemenu():   # Deze functie zorgt voor een keuze menu waar de speler kan kiezen of ze zelf secret code hebben of dat ze moeten raden
     print("Welcome to mastermind!!!")
     print("Do you want to have the secret code or have to crack the secret code?")
-    print("Press 1 to have code     2 to crack the code:")
+    print("Press 1 to have code    2 to crack the code:")
     while True:
         choose = input("input: ")
         if choose == "1" or choose == "2":
