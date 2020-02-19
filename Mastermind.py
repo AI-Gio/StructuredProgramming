@@ -1,4 +1,3 @@
-import time
 import datetime
 import random
 #=========================================================================================
@@ -16,7 +15,6 @@ def Guess(): # Dit zorgt ervoor dat de player een gok kan doen
     return Guesses
 
 def PCCode(): #voor player tegen pc, pc heeft geheime code
-    import random # header
     SecretCode = []
     for i in range(1,5):
         PinCode = random.choice(["red", "blue", "yellow", "green", "orange", "brown"])
@@ -24,7 +22,6 @@ def PCCode(): #voor player tegen pc, pc heeft geheime code
     return SecretCode
 
 def PCFeedback(SecretCode, Guess): # Deze code geeft een feedback terug met input de secret code en een gok
-    #print(SecretCode, Guess)
     BlackPins = 0
     WhitePins = 0
     SecretCodeTemp = []
@@ -44,7 +41,6 @@ def PCFeedback(SecretCode, Guess): # Deze code geeft een feedback terug met inpu
                 WhitePins += 1
                 break
 #Data displayed
-    # feedback = "B"*BlackPins + "W"*WhitePins
     return BlackPins, WhitePins
 
 def PlayerGuess(): # Deze functie zorgt ervoor dat de player gokken kan doen
@@ -71,10 +67,10 @@ def PlayerGuess(): # Deze functie zorgt ervoor dat de player gokken kan doen
             for i in range(1, 11):
                 print(f"This is guess {i}\n")
                 print("U have 30 seconds!")
-                a = datetime.datetime.now().replace(microsecond=0)
+                TimeStamp1 = datetime.datetime.now().replace(microsecond=0)
                 guess = Guess()
-                b = datetime.datetime.now().replace(microsecond=0)
-                TimeDiff = b - a
+                TimeStamp2 = datetime.datetime.now().replace(microsecond=0)
+                TimeDiff = TimeStamp2 - TimeStamp1
                 Blackpins, Whitepins = PCFeedback(SecretCode, guess)
                 if Blackpins == 4:
                     print(f"Congrats u found the secret code after {i} guess(es)")
@@ -93,10 +89,6 @@ def PlayerGuess(): # Deze functie zorgt ervoor dat de player gokken kan doen
             DiffChoose = input("Input 1/2: ")
 
 
-
-
-
-
 #===================================================================================================
 #Hier staat de code voor pc tegen player, dus de player heeft geheime code en pc moet raden
 def PlayerCode(): #Deze functie vraagt om een secret code van de player
@@ -113,7 +105,6 @@ def PlayerCode(): #Deze functie vraagt om een secret code van de player
     return SecretCode
 
 def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of het goed geraden is.
-    import random
     PlayerCodeTemp = PlayerCode()
     FirstGuess = []
     Possibilities = []  # Lst met mogelijke codes
@@ -135,13 +126,13 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
                     gok = FirstGuess[0]
                 else:
                     gok = random.choice(Possibilities)
-                Blackpins, Whitepins = PCFeedback(PlayerCodeTemp,gok)  # PCFeedback(PlayerCodeTemp, gok)/ dit is een forced feedback moet alleen nog kunnen veranderen
+                Blackpins, Whitepins = PCFeedback(PlayerCodeTemp,gok)
                 if Blackpins == 4:
                     print(f"Wow the pc found your code in {a} tries")
                     break
 
                 for b in Possibilities:  # pakt alle items in Posibilities lst en vergelijkt of feedback niet hetzelfde is aan forced feedback en daarna remove je die mogelijkheid
-                    if PCFeedback(gok, b) != (Blackpins, Whitepins):  # PCFeedback(PlayerCodeTemp, gok):
+                    if PCFeedback(gok, b) != (Blackpins, Whitepins):
                         Possibilities.remove(b)
             break
         elif DiffChoose == "2":  # Hier wordt de expected size algoritme gebruikt
@@ -190,7 +181,7 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
             DiffChoose = input("Input 1/2: ")
 
 #============================================================================================================
-def Choosemenu():   # Deze functie zorgt voor een keuze menu waar de speler kan kiezen of ze zelf Secret code hebben of dat ze moeten raden
+def Choosemenu():   # Deze functie zorgt voor een keuze menu waar de speler kan kiezen of ze zelf secret code hebben of dat ze moeten raden
     print("Welcome to mastermind!!!")
     print("Do you want to have the secret code or have to crack the secret code?")
     print("Press 1 to have code     2 to crack the code:")
