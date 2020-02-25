@@ -174,7 +174,6 @@ def MastermindPc(): #Je speelt tegen de pc dus pc geeft feedback en geeft aan of
                         BestSize = ExSize
                         BestComb = Gok
                 Guess = BestComb
-
             break
         else:
             print("You have to put in a number!")
@@ -185,6 +184,7 @@ def Choosemenu():   # Deze functie zorgt voor een keuze menu waar de speler kan 
     print("Welcome to mastermind!!!")
     print("Do you want to have the secret code or have to crack the secret code?")
     print("Press 1 to have code    2 to crack the code:")
+    print("Colors are : red, blue, yellow, green, orange, brown")
     while True:
         choose = input("input: ")
         if choose == "1" or choose == "2":
